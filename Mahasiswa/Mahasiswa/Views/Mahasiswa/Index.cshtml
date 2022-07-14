@@ -1,0 +1,136 @@
+﻿@model Mahasiswa.Models.AplicationModels
+@using Mahasiswa.Models
+@{
+    Layout = null;
+   
+    Pager pager = ViewBag.Pager;
+
+    int pageNo = 0;
+    var pge = pager.StartPage;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+
+    }
+    @* List<MahasiswaModel> mahasiswa = ViewBag.mahasiswa;*@
+
+    List<MahasiswaModel> pageMahasiswa = ViewBag.pageMahasiswa;
+
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <title>Data Mahasiswa</title>
+</head>
+<body>
+    <div class="container mt-3">
+        <p>
+            <asp:Label ID="output" runat="server"></asp:Label>
+        </p>
+        <p>
+            <a href="~/Mahasiswa/Create" class="btn btn-success">Tambah Data Mahasiswa</a>
+        </p>
+
+       
+        <div class="card-box table-responsive">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <td align="center">No.</td>
+                        <td align="center">NIM</td>
+                        <td align="center">Nama Mahasiswa</td>
+                        <td align="center">Jurusan</td>
+                        <td align="center">Action</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (pageMahasiswa != null)
+                    {
+                        var i = 1;
+                        foreach (var item in pageMahasiswa)
+                        {
+                            <tr>
+                                <td align="center">@i</td>
+                                <td align="center">@Html.DisplayFor(modelItem => item.nim)</td>
+                                <td>@Html.DisplayFor(modelItem => item.nama)</td>
+                                <td>@Html.DisplayFor(modelItem => item.jurusan)</td>
+                                <td align="center">
+                                    <a href="~/Mahasiswa/Edit?nim=@item.nim" class="btn btn-warning mr-2">Edit</a>
+                                    <a href="~/Mahasiswa/Details?nim=@item.nim" class="btn btn-info mr2">Details</a>
+                                    <a href="~/Mahasiswa/Delete?nim=@item.nim" class="btn btn-danger">Delete</a>
+
+                                </td>
+
+                            </tr>
+                            i = i + 1;
+                        }
+                    }
+                    @if (pageMahasiswa == null)
+                    {
+                        <tr>
+                            <td align="center">Data Mahasiswa Tidak Ditemukan</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="get">
+            <nav aria-label="Page navigation">
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination">
+                        @*<li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>*@
+
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a href="~/Mahasiswa/Index?pg=@(pager.CurrentPage - 1)" class="btn tbn-info">Previous</a>
+                            </li>
+                        }
+
+                       
+                        @for (pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                            {
+                                if (pageMahasiswa != null)
+                                {
+                                    <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                        <a href="~/Mahasiswa/Index?pg=@pge">@pge</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="hide">@pge</li>
+                                }
+                            }
+
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a href="~/Mahasiswa/Index?pg=@(pager.CurrentPage + 1) " class="btn tbn-info">Next</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </nav>
+        </form>
+
+    </div>
+
+</body>
+</html>
+

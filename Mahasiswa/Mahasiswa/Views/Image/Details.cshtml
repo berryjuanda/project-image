@@ -1,0 +1,28 @@
+﻿@model Mahasiswa.Models.Image
+
+<div>
+    <h4>Detail Image</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @ViewBag.title
+        </dd>
+
+        <dt>
+          <label>Uploaded File</label> 
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(ViewBag.path)" width="250" height="250" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@@Html.ActionLink("Edit", "Edit", new { id = Model.ImageID }) *@ |
+    @Html.ActionLink("Back to List", "Index")
+</p>

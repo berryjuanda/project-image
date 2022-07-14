@@ -1,0 +1,43 @@
+﻿@model Mahasiswa.Models.Image
+@using Mahasiswa.Models
+@{
+    List<Image> image = ViewBag.image;
+}
+
+    <a href="~/Image/Add" class="btn btn-success mt-5">Upload Gambar</a>
+
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in image)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.ImageID)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <img src="@Url.Content(item.ImagePath)" width="250" height="250" />
+            </td>
+            <td align="center">
+                <a href="~/Image/Edit?id=@item.ImageID" class="btn btn-warning mr-2">Edit</a>
+                <a href="~/Image/Details?id=@item.ImageID" class="btn btn-info mr2">Details</a>
+                <a href="~/Image/Delete?id=@item.ImageID" class="btn btn-danger">Delete</a>
+
+            </td>
+        </tr>
+    }
+
+</table>
